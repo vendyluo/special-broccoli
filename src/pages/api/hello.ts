@@ -16,3 +16,9 @@ export default async function handler(
   const data = await MY_KV.get('HELLO');
   res.status(200).json({ name: data })
 }
+
+
+
+export const config = {
+  runtime: 'edge',
+};
