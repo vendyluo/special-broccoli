@@ -1,13 +1,18 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { KVNamespace } from "@cloudflare/workers-types";
 
 type Data = {
-  name: string
+  name: string | null
 }
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res.status(200).json({ name: 'John Doe' })
+  // @ts-ignore
+  const MY_KV = (process.env as { MY_KV: KVNamespace }).MY_KV;
+  //
+  const data = await MY_KV.get('HELLO');
+  res.status(200).json({ name: data })
 }
